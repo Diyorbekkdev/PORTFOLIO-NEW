@@ -1,3 +1,8 @@
+@mixin media($size) {
+  @media only screen and (max-width: $size) {
+    @content;
+  }
+}
 .main {
   .card {
     width: 400px;
@@ -5,6 +10,9 @@
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
       0 10px 10px -5px rgba(0, 0, 0, 0.04);
     border-radius: 10px;
+    @include media(500px){
+        width: 100%;
+    }
   }
   .card img {
     width: 100%;
@@ -26,6 +34,10 @@
     border-radius: 5px;
     box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.1),
       0 5px 5px -5px rgba(106, 105, 105, 0.01);
+      @include media(500px){
+        top: 100px;
+        height: 100px;
+      }
   }
   .card-title h4 {
     font-family: "Roboto", sans-serif;

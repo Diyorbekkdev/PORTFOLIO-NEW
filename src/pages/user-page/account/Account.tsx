@@ -3,12 +3,12 @@ import { useState, useEffect, useCallback } from "react";
 import avatar from "../../../assets/avatar-svgrepo-com.svg";
 import check from "../../../assets/check-removebg-preview.png";
 import ProgressIndicator from "../../../components/progres/ProgresIndicator";
-import "./account.scss";
 import { request } from "../../../request";
 import { userObj } from "../../../data/userData";
 import { IMG_URL } from "../../../constants";
 import PasswordUpdate from "./PasswordUpdate";
 
+import "./account.scss";
 const Account = () => {
  
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -47,7 +47,7 @@ const Account = () => {
     instagram,
     youtube,
   } = userData;
-  // const {username,currentPassword,newPassword} = newPassword;
+  
 
   useEffect(() => {
     getUserInfo();

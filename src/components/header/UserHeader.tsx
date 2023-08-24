@@ -8,19 +8,48 @@ import faq from "../../assets/userdropdown/faq.svg";
 import logoutt from "../../assets/userdropdown/logout.svg";
 
 import { useAuth } from "../../states/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./Header.scss";
+import { request } from "../../request";
+import { IMG_URL } from "../../constants";
 const UserHeader = () => {
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [userData, setUserData] = useState({
+    birthday: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+    email: "",
+    info: "",
+    photo: "",
+  });
   const controlDropdown = () => {
     setOpenDropdown(!openDropdown);
   };
   const { logout } = useAuth();
   const handleLogout = () => {
-    logout();
+    if (confirm("Are you sure you want to log")) {
+      logout();
+    }
   };
-  
+
+
+
+  const getData = async () => {
+    try {
+      const res = await request.get(`auth/me`);
+      setUserData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+ 
+  }, []);
   return (
     <header className="header">
       <div className="admin__container">
@@ -36,7 +65,7 @@ const UserHeader = () => {
         </div>
         <div className="account">
           <div onClick={controlDropdown}>
-            <img className="account__img" src={avatar} alt="icon" />
+            <img className="account__img" src={userData.photo ? IMG_URL + userData.photo : avatar} alt="icon" />
           </div>
           <div
             className={openDropdown ? "user_dropdown open" : "user_dropdown"}
@@ -47,16 +76,22 @@ const UserHeader = () => {
                 alt="icon"
               />
               <div className="user_name">
-                <span className="name">Diyorbek</span>
-                <span>Juraev</span>
+                <span className="name">{userData.firstName}</span>
+                <span>{userData.lastName}</span>
               </div>
             </div>
             <div className="line"></div>
             <ul>
               <li>
-                <Link to={"/account"} >
+                <Link to={"/about"}>
                   <img src={user_img} alt="" />
-                  Profile
+                    View Profile
+                </Link>
+              </li>
+              <li>
+                <Link to={"/account"}>
+                  <img src={user_img} alt="" />
+                  Account
                 </Link>
               </li>
               <li>

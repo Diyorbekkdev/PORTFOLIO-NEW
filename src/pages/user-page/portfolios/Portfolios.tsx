@@ -2,23 +2,25 @@ import { useCallback, useState, useEffect } from "react";
 import { request } from "../../../request";
 import { IMG_URL, USERID } from "../../../constants";
 import { Link } from "react-router-dom";
+import { portfolioTypes } from "../../../types";
 import Cookies from "js-cookie";
 
 import edit from "../../../assets/edit.png";
 import delete_icon from "../../../assets/delete.png";
 import portfolio from "../../../assets/skilss.svg";
-import "./portfolios.scss";
 import LoadingContents from "../../../components/loading/LoadingContents";
-
-import { portfolioTypes } from "../../../types";
 import ConfirmationModal from "../../../components/confirmation/ConfirmationModal";
+
+import "./portfolios.scss";
 const Portfolios = () => {
+  
   const obj = {
     name: "",
     url: "",
     description: "",
     photo: { _id: "", name: "" },
   };
+
   const [portfolios, setPortfolios] = useState(obj);
   const [portfolioData, setPortfolioData] = useState<portfolioTypes[]>([]);
   const [selected, setSelected] = useState("");

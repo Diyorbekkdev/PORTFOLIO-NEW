@@ -152,6 +152,7 @@ const Experience = () => {
             <input
               name="description"
               id="description"
+              className="textarea"
               value={description}
               onChange={onChange}
               placeholder="Text here ..."

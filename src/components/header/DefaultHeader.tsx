@@ -1,12 +1,12 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState, Fragment, useEffect } from "react";
+import { request } from "../../request";
 import mobile_menu from "../../assets/default-page-icons/mobilemenue.png";
 import close_icon from "../../assets/default-page-icons/close.png";
 import tg from "../../assets/default-page-icons/icons8-telegram-48.png";
 import insta from "../../assets/default-page-icons/icons8-instagram-24.png";
 import github from "../../assets/default-page-icons/icons8-github-30.png";
 import youtube from "../../assets/default-page-icons/icons8-youtube-30.png";
-import { request } from "../../request";
 
 const DefaultHeader = () => {
   const [top, setTop] = useState(false);
@@ -21,6 +21,10 @@ const DefaultHeader = () => {
     address: "",
     email: "",
     info: "",
+    telegram: "",
+    instagram: "",
+    github: "",
+    youtube: "",
   });
 
   const getData = async () => {
@@ -43,7 +47,7 @@ const DefaultHeader = () => {
         <div className="container">
           <div className="nav__wrapper">
             <h1 className="hero_name" onClick={toggleNavbar}>
-              <Link to={"/"}>
+              <Link to={"#"}>
                 {userData?.firstName + " " + userData?.lastName}
               </Link>
             </h1>
@@ -53,7 +57,7 @@ const DefaultHeader = () => {
                 <>
                   <ul>
                     <li onClick={toggleNavbar}>
-                      <NavLink to={"/"}>Home</NavLink>
+                      <NavLink to={"#"}>Home</NavLink>
                     </li>
                     <li>
                       <NavLink to={"/about"}>About</NavLink>
@@ -72,7 +76,7 @@ const DefaultHeader = () => {
               ) : (
                 <ul>
                   <li>
-                    <NavLink to={"/"}>Home</NavLink>
+                    <NavLink to={"#"}>Home</NavLink>
                   </li>
                   <li onClick={toggleNavbar}>
                     <NavLink to={"/about"}>About</NavLink>
@@ -94,19 +98,19 @@ const DefaultHeader = () => {
             </button>
 
             <div className="social_links">
-              <Link to={"dsfa"}>
+              <Link to={userData.telegram}>
                 {" "}
                 <img src={tg} alt="" />{" "}
               </Link>
-              <Link to={"dsfa"}>
+              <Link to={userData.instagram}>
                 {" "}
                 <img src={insta} alt="" />{" "}
               </Link>
-              <Link to={"dsfa"}>
+              <Link to={userData.github}>
                 {" "}
                 <img src={github} alt="" />{" "}
               </Link>
-              <Link to={"dsfa"}>
+              <Link to={userData.youtube}>
                 {" "}
                 <img src={youtube} alt="" />{" "}
               </Link>

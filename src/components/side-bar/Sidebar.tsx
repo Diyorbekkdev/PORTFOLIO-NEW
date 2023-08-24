@@ -1,4 +1,5 @@
 import './Sidebar.scss';
+import {useEffect,useState} from 'react'
 import { Link,useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../../public/logo.jpg';
 import icon1 from '../../assets/experience.svg';
@@ -8,12 +9,35 @@ import icon2 from '../../assets/skilss.svg';
 import icon4 from '../../assets/messages.svg';
 import icon6 from '../../assets/settings.svg';
 import icon7 from '../../assets/logout.svg';
+import { request } from '../../request';
 
 
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+  const [userData, setUserData] = useState({
+    birthday: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+    email: "",
+    info: "",
+    _id: "",
+  });
+
+  const getData = async () => {
+    try {
+      const res = await request.get(`auth/me`);
+      setUserData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   const navigationLinks = [
     { path: '/experience', label: 'Experiences', icon: icon1 },
     { path: '/skilss', label: 'Skills', icon: icon5 },
@@ -34,7 +58,7 @@ const Sidebar = () => {
           <img src={logo} alt='logo' />
           <h1>Portfolio</h1>
         </div>
-        <p>User ID: <span>23456789</span></p>
+        <p className='user_id'>User: <span>{userData.firstName}</span></p>
       </div>
       <ul className='sidebar_links'>
         {navigationLinks.map((link) => (
