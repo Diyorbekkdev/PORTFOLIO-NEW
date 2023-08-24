@@ -1,0 +1,98 @@
+/* ConfirmationModal.css */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    backdrop-filter: blur(5px); /* Add the blur effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+    
+    .modal {
+      background-color: #252424;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px; /* Limit the width of the modal */
+    }
+    
+    .modal h2 {
+      margin-top: 0;
+      font-size: 24px;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+    }
+    
+    .modal p {
+      margin-top: 15px; 
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+    }
+}
+
+ 
+  
+  .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .modal-actions button {
+         margin-top: 15px;
+        cursor: pointer;
+        --green: #1bfd9c;
+        font-size: 15px;
+        padding: 0.7em 2.7em;
+        letter-spacing: 0.06em;
+        position: relative;
+        font-family: inherit;
+        border-radius: 0.6em;
+        overflow: hidden;
+        transition: all 0.3s;
+        line-height: 1.4em;
+        border: 2px solid var(--green);
+        background: linear-gradient(
+          to right,
+          rgba(27, 253, 156, 0.1) 1%,
+          transparent 40%,
+          transparent 60%,
+          rgba(27, 253, 156, 0.1) 100%
+        );
+        color: var(--green);
+        box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.4),
+          0 0 9px 3px rgba(27, 253, 156, 0.1);
+        &:hover {
+          color: #82ffc9;
+          box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.6),
+            0 0 9px 3px rgba(27, 253, 156, 0.2);
+        }
+        &::before {
+          content: "";
+          position: absolute;
+          left: -4em;
+          width: 4em;
+          height: 100%;
+          top: 0;
+          transition: transform 0.4s ease-in-out;
+          background: linear-gradient(
+            to right,
+            transparent 1%,
+            rgba(27, 253, 156, 0.1) 40%,
+            rgba(27, 253, 156, 0.1) 60%,
+            transparent 100%
+          );
+        }
+        &:hover::before {
+          transform: translateX(45em);
+        }
+  }
+

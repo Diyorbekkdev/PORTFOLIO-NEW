@@ -1,0 +1,17 @@
+.message{
+    .messages__banner{
+        background: url('https://firebase.google.com/images/products/in-app-messaging/in-app-messaging-1.png') center center, no-repeat;
+        background-size: cover;
+        height: 350px;
+        border-radius: 10px;
+        h1{
+           color: #0c81f5;
+           font-family: 'Poppins', sans-serif;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           padding-top: 150px; 
+           backdrop-filter: 100%;
+        }
+    }
+}

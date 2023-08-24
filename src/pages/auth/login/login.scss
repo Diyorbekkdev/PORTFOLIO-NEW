@@ -1,0 +1,208 @@
+section.section-login .section-main {
+    width: 60%;
+    height: auto;
+    display: flex;
+    
+}
+
+
+.main section.section-login {
+    width: 100%;
+    height: 100vh;
+    background: url(https://rvs-gradie-signup-page.vercel.app/Assets/Background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    label{
+        font-family: "Poppins";
+    }
+    
+}
+
+.main section.section-login .section-main .section-login-1, main section.section-login .section-login-2 {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #03a679;
+    
+}
+.main section.section-login .section-main .section-login-1 .section-login-1-main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 50px;
+ 
+}
+.main section.section-login .section-main .section-login-1 .section-login-1-main .section-login-1-title {
+    font-size: 32px;
+    color: #fff;
+    font-family: 'Poppy', sans-serif;
+}
+.main section.section-login .section-main .section-login-1 .section-login-1-main .section-login-1-text {
+
+color: #ffffff94;
+font-family: 'Poppy', sans-serif;
+font-size: 18px;
+}
+.main section.section-login .section-main .section-login-1 .section-login-1-main .section-login-1-img {
+
+width: 100%;
+
+}
+.main section.section-login .section-main .section-login-1 .section-login-1-main .section-login-1-img img {
+
+width: 100%;
+
+display: block;
+}
+
+
+.main section.section-login .section-main .section-login-2 .section-login-2-main {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-title {
+    font-size: 32px;
+    font-family: 'Poppy', sans-serif;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-1, main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-2, main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-3 {    
+    display: flex;   
+    flex-direction: column;
+    row-gap: 8px;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-1 label, main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-2 label, main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-3 label {
+    font-weight: 500;
+    font-size: 15px;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-1 input, main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-2 input, main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-3 input {
+    padding: 12px 15px;
+    border: 1px solid #e9e6e6;
+    border-radius: 4px;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-4 {
+    display: flex;
+    column-gap: 7px;
+    align-items: center;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-4 p, main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-5 p {
+    font-size: 14px;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-4 p a, main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-5 p a {
+    font-weight: bold;
+    color: #5a1fe0;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-submit-btn button {
+    background: #5a1fe0;
+    padding: 14px;
+    width: 100%;
+    color: #fff;
+    outline: none;
+    border: 0px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+.main section.section-login .section-main .section-login-2 .section-login-2-main .section-login-2-form .login-form-5 p {
+    text-align: center;
+}
+.for_register{
+  background: #25a3ff !important;
+  .register_info{
+    span{
+        color: orange!important;
+        font-weight: bold   ;
+    }
+  }
+}
+.password-input-container{
+    position: relative;
+    .password-toggle-button{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        img{
+            width: 25px;
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: 1200px) {
+
+    /* login page */
+    .main section.section-login .section-login-1 .section-login-1-main, main section.section-login .section-login-2 .section-login-2-main {
+        width: 85%;
+    }
+    .main section.section-login .section-login-1 .section-login-1-main .section-login-1-title, main section.section-login .section-login-1 .section-login-1-main .section-login-1-form {
+        margin-top: 35px;
+    }
+    .main section.section-login .section-main {
+        width: 75%
+    }
+
+}
+
+@media only screen and (max-width: 900px) {
+
+    /* login page */
+    .main section.section-login .section-main {
+        padding: 35px 0px;
+    }
+    .main section.section-login .section-login-1 .section-login-1-main, main section.section-login .section-login-2 .section-login-2-main {
+        width: 90%;
+    }
+    .main section.section-login .section-login-1 .section-login-1-main {
+        height: 90%;
+    }
+    .main section.section-login .section-login-1 .section-login-1-main .section-login-1-title, main section.section-login .section-login-1 .section-login-1-main .section-login-1-form {
+        margin-top: 25px;
+    }
+    .main section.section-login .section-main {
+        flex-direction: column;
+        width: 75%;
+        padding: 50px 0px;
+    }
+    .main section.section-login .section-main .section-login-1, main section.section-login .section-login-2 {
+        width: 100%;
+    }
+
+    .main section.section-login {
+        height: unset;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .main section.section-login .section-main {
+        width: 100%;
+        padding: 0px;
+    }
+    .main section.section-login .section-main .section-login-2 .section-login-2-main {
+        padding: 35px 25px;
+    }
+}

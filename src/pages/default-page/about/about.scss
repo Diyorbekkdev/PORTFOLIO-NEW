@@ -1,0 +1,209 @@
+@mixin media($size) {
+  @media only screen and (max-width: $size) {
+    @content;
+  }
+}
+#about {
+  position: relative;
+  z-index: 5;
+  .about__wrapper {
+    padding: 15px 10px;
+    margin-top: 100px;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    .top_heading {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      gap: 15px;
+      span {
+        font-size: 14px;
+        font-weight: 500;
+        padding: 0;
+        line-height: 1px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #aaaaaa;
+        font-family: "Poppins", sans-serif;
+      }
+      .line {
+        width: 200px;
+        height: 2px;
+        background: #4ceb95;
+      }
+    }
+    .main_heading {
+      margin-top: 25px;
+      h1 {
+        font-size: 36px;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-family: "Poppins", sans-serif;
+        color: #fff;
+        margin-bottom: 10px;
+      }
+    }
+    .about__me {
+      display: flex;
+      margin-bottom: 50px;
+      gap: 15px;
+      @include media(750px){
+        flex-direction: column;
+        
+      }
+      .about_img_container {
+        flex: 0 0 auto;
+        width: 33.33333333%;
+        @include media(750px){
+            width: 100%;
+            margin-bottom: 20px;
+          }
+        img {
+          max-width: 100%;
+          height: auto;
+          @include media(976px){
+            width: 100%;
+           border-radius: 10px;
+          }
+        }
+      }
+      .about__personal__data {
+        color: #fff;
+        h1 {
+          margin-bottom: 10px;
+          font-family: "Raleway", sans-serif;
+          font-weight: 700;
+          font-size: 26px;
+          color: #18d26e;
+        }
+        p {
+          color: #fff;
+          font-style: italic;
+          font-size: 19px;
+          margin-bottom: 10px;
+          font-family: "Raleway", sans-serif;
+        }
+        .data_list {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 30px;
+          @include media(590px){
+            flex-direction: column;
+            gap: 15px;
+          }
+          ul {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            li {
+              font-family: "Raleway", sans-serif;
+              span {
+                color: #fff;
+                font-weight: bold;
+                font-size: 20px;
+                padding-right: 10px;
+              }
+              &::before {
+                content: ">";
+                font-size: 16px;
+                margin-right: 5px;
+                color: #18d26e;
+                line-height: 0;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+    }
+    .about__skills {
+      margin-bottom: 25px;
+      .progress_skilss {
+        margin-top: 25px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        @include media(800px){
+            grid-template-columns: repeat(1, 1fr);
+        }
+        gap: 10px;
+        margin-bottom: 25px;
+        .skill_progress {
+          display: flex;
+          flex-direction: column;
+          .skill {
+            padding: 10px 0;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+            color: #fff;
+          }
+          .progres_bar_wrap {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            .progres_bar {
+              background: #18d26e;
+              height: 10px;
+            }
+          }
+        }
+      }
+    }
+    .testimonials {
+      .points {
+        margin-top: 60px !important;
+      }
+    }
+    .slider__wrapper {
+      margin-top: 30px;
+      .testimonial-item {
+        box-sizing: content-box;
+        min-height: 320px;
+        max-width: 520px;
+        p {
+          font-style: italic;
+          margin: 0 15px 0 15px;
+          padding: 20px 20px 60px 20px;
+          background: rgba(255, 255, 255, 0.1);
+          position: relative;
+          border-radius: 6px;
+          z-index: 1;
+          color: #fff;
+          font-family: "Raleway", sans-serif;
+          span {
+            margin-right: 10px;
+          }
+        }
+        img {
+          width: 90px;
+          border-radius: 50%;
+          margin: -40px 0 0 40px;
+          position: relative;
+          z-index: 2;
+          border: 6px solid rgba(255, 255, 255, 0.12);
+        }
+        h3 {
+          font-size: 18px;
+          font-weight: bold;
+          margin: 10px 0 5px 45px;
+          color: #fff;
+          font-family: "Raleway", sans-serif;
+        }
+        h4 {
+          font-size: 14px;
+          color: #999;
+          margin: 0 0 0 45px;
+          font-family: "Raleway", sans-serif;
+        }
+      }
+    }
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  display: none;
+}

@@ -1,0 +1,206 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
+@mixin media($size) {
+    @media only screen and (max-width: $size) {
+      @content;
+    }
+  }
+// #portfolio {
+  .portfolio {
+    margin-top: 100px;
+    .portfolio__wrapper{
+        background: rgba(0, 0, 0, 0.9);
+        padding: 5px 15px;
+        border-radius: 5px;
+        position: relative;
+        .top_heading {
+          display: flex;
+          align-items: center;
+          margin-top: 10px;
+          gap: 15px;
+          span {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0;
+            line-height: 1px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #aaaaaa;
+            font-family: "Poppins", sans-serif;
+          }
+          .line {
+            width: 200px;
+            height: 2px;
+            background: #4ceb95;
+          }
+        }
+        .main_heading {
+          margin-top: 25px;
+          h1 {
+            font-size: 36px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-family: "Poppins", sans-serif;
+            color: #fff;
+            margin-bottom: 10px;
+          }
+        }
+        .portfolio_title{
+            padding-top: 25px;
+            color: #fff;
+            font-size: 25px;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+        .pagination_container{
+            position: absolute;
+        }
+    }
+    .box-wrapper{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        place-items: center;
+        @include media(1200px){
+            grid-template-columns: repeat(2, 1fr);
+        }
+        @include media(800px){
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+    .shape-box {
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+      height: 415px;
+      margin: 30px 10px 30px;
+      overflow: hidden;
+      width: 360px;
+      border-radius: 5px;
+    }
+
+    .shape-box_half {
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .shape-box_half:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transform: skewY(53.5deg);
+      transform-origin: top left;
+      transition:transform 0.4s;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1;
+    }
+
+    .shape-box > img {
+      width: 100%;
+      height: 100%;
+      -o-object-fit: cover;
+      object-fit: cover;
+    }
+
+    .bg-black {
+      background-color: #00000036;
+    }
+
+    .shape-box_half figcaption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0 30px 30px;
+      transition: transform 0.4s;
+      transform: translateY(100%);
+      z-index: 3;
+    }
+
+    .shape-box_half figcaption .show-cont {
+      position: absolute;
+      bottom: calc(100% + 30px);
+      left: 30px;
+      right: 30px;
+      transition: bottom 0.4s;
+    }
+
+    .card-no {
+      font-size: 36px;
+      color: #ffc107;
+      padding: 0;
+      margin: 10px 0;
+    }
+
+    .card-main-title {
+      margin-top: 8px;
+      font-weight: 700;
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #1dd429;
+      font-family: 'Poppins', sans-serif;    ;
+    }
+
+    .card-content {
+      color: #fff;
+      margin-top: 20px;
+      line-height: 22px;
+      font-size: 15px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .read-more-btn {
+      border: 2px solid #db3236;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 10px 20px;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      position: relative;
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      transition: all 0.3s;
+      background: #db3236;
+      color: #fff;
+      border-radius: 2px;
+      margin-top: 25px;
+      text-decoration: none;
+    }
+
+    .read-more-btn:hover {
+      background: transparent;
+      color: #db3236;
+    }
+
+    .shape-box_half > .after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #fdd744;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    /*On hover*/
+    .shape-box_half:hover:before {
+      transform: skewY(20deg);
+    }
+
+    .shape-box_half:hover figcaption {
+      transform: translateY(0);
+    }
+
+    .shape-box_half:hover figcaption .show-cont {
+      bottom: 100%;
+    }
+
+    .shape-box_half:hover > .after {
+      opacity: 1;
+    }
+  }
+// }

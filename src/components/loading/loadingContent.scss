@@ -1,0 +1,27 @@
+.cell .wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 10rem;
+    margin: 1rem 1rem 0;
+    padding-top: 2.2rem;
+  }
+  .cell .wrapper::after {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0.2rem;
+    text-align: center;
+  }
+  .spinner {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .spinner.spinner3 {
+    border-top: 3px solid rgba(20, 199, 32, 0.5);
+    border-right: 3px solid transparent;
+    border-radius: 50%;
+    -webkit-animation: rotation .8s linear infinite;
+    animation: rotation .8s linear infinite;
+  }

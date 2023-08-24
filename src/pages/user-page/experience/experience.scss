@@ -1,0 +1,184 @@
+@mixin media($size) {
+  @media only screen and (max-width: $size) {
+    @content;
+  }
+}
+
+.experience_main {
+  display: flex;
+  padding: 0 10px;
+  gap: 25px;
+  margin-bottom: 250px;
+  @include media(1190px){
+    flex-direction: column;
+  }
+  .form__container {
+    background: #434040;
+    width: calc(24px + 16 * ((100vw - 320px) / 35));
+    padding: 10px;
+    border-radius: 10px;
+    @include media(1190px){
+      width: 100%;
+    }
+    .error-message {
+        color: red;
+        font-family: 'Poppins, sans-serif';
+    }
+    .exp_form_title {
+      color: #ebedeb;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      img {
+        width: 45px;
+        filter: invert(1);
+      }
+      span {
+        color: #14ff0c;
+      }
+    }
+    .experience__from {
+      .form__group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 15px;
+        label {
+          font-family: "Poppins", sans-serif;
+          font-size: 20px;
+          color: #fff;
+        }
+        input,
+        textarea {
+          width: 100%;
+          padding: 10px;
+          border: none;
+          border-bottom: 2px solid #fff;
+          outline: none;
+          background: #434040;
+          color: #fff;
+          &:focus {
+            border-bottom: 2px solid #14ff0c;
+          }
+          &::placeholder {
+            color: #fff;
+            font-family: "Poppins", sans-serif;
+          }
+        }
+        textarea {
+          width: 100%;
+          height: 150px;
+          resize: none;
+        }
+        .submit_exp_btn {
+          cursor: pointer;
+          --green: #1bfd9c;
+          font-size: 15px;
+          padding: 0.7em 2.7em;
+          letter-spacing: 0.06em;
+          position: relative;
+          font-family: inherit;
+          border-radius: 0.6em;
+          overflow: hidden;
+          transition: all 0.3s;
+          line-height: 1.4em;
+          border: 2px solid var(--green);
+          background: linear-gradient(
+            to right,
+            rgba(27, 253, 156, 0.1) 1%,
+            transparent 40%,
+            transparent 60%,
+            rgba(27, 253, 156, 0.1) 100%
+          );
+          color: var(--green);
+          box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.4),
+            0 0 9px 3px rgba(27, 253, 156, 0.1);
+          &:hover {
+            color: #82ffc9;
+            box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.6),
+              0 0 9px 3px rgba(27, 253, 156, 0.2);
+          }
+          &::before {
+            content: "";
+            position: absolute;
+            left: -4em;
+            width: 4em;
+            height: 100%;
+            top: 0;
+            transition: transform 0.4s ease-in-out;
+            background: linear-gradient(
+              to right,
+              transparent 1%,
+              rgba(27, 253, 156, 0.1) 40%,
+              rgba(27, 253, 156, 0.1) 60%,
+              transparent 100%
+            );
+          }
+          &:hover::before {
+            transform: translateX(45em);
+          }
+        }
+      }
+    }
+  }
+  .experience__list {
+    position: relative;
+    height: 645px;
+    background: #434040;
+    border-radius: 10px;
+    width: 50%;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+      display: none;
+    }
+    @include media(1190px){
+      width: 100%;
+
+    }
+    .exp_gif {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+    }
+    .exp_title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      border-radius: 10px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5.7px);
+      -webkit-backdrop-filter: blur(5.7px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      h1 {
+        padding: 8px 0;
+        font-family: "Poppins", sans-serif;
+      }
+    }
+    .overly {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #3b3b3b94;
+      top: 0;
+      border-radius: 10px;
+    }
+    .exp_list {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: scroll !important;
+    }
+  }
+}

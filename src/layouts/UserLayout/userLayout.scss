@@ -1,0 +1,24 @@
+@mixin media($size) {
+    @media only screen and (max-width: $size) {
+      @content;
+    }
+  }
+.user__layout__contents{
+    position: absolute;
+    width: calc(100% - 258px);
+    right: 0;
+    top: 100px;
+    overflow-y: scroll;
+    height: 100vh !important;
+    position: fixed;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+}
+
+.content__container{
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 0 20px;
+} 
