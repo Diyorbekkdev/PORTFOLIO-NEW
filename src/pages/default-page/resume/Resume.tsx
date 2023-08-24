@@ -1,23 +1,40 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import useExperiencesStore from "../../../states/experience";
 import "./resume.scss";
 import useEducationStore from "../../../states/education";
-import useUserDataStore from "../../../states/userData";
+import { request } from "../../../request";
 const Resume = () => {
   const experiences = useExperiencesStore((state) => state.experiences);
   const education = useEducationStore((state) => state.education);
   const fetchEducation = useEducationStore((state) => state.fetchEducation);
-  const userData = useUserDataStore((state) => state.userData);
-  const fetchUserData = useUserDataStore((state) => state.fetchUserData);
   const fetchExperiences = useExperiencesStore(
     (state) => state.fetchExperiences
   );
 
+  const [userData, setUserData] = useState({
+    birthday: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+    email: "",
+    info: "",
+  });
+
+  const getData = async () => {
+    try {
+      const res = await request.get(`auth/me`);
+      setUserData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
+    getData();
     fetchEducation();
     fetchExperiences();
-    fetchUserData()
-  }, [fetchExperiences, fetchEducation, fetchUserData]);
+  }, [fetchExperiences, fetchEducation]);
 
   return (
     <section id="resume" className="resume">
@@ -63,13 +80,13 @@ const Resume = () => {
                   <div className="resume_item" key={res._id}>
                     <h2>{res?.name}</h2>
                     <p id="period">
-                      <span className="start">{res?.startDate.split("-")[0]}</span>-
-                      <span className="end">{res?.endDate.split("-")[0]}</span>
+                      <span className="start">
+                        {res?.startDate.split("-")[0]}
+                      </span>
+                      -<span className="end">{res?.endDate.split("-")[0]}</span>
                     </p>
                     <p>
-                      <em>
-                        {res?.description}
-                      </em>
+                      <em>{res?.description}</em>
                     </p>
                     <ul>
                       <li>{res?.level}</li>

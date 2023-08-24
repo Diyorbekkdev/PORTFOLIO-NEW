@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import useSkillsStore from "../../../states/skillData";
 import "./about.scss";
 import { request } from "../../../request";
 
 const About = () => {
+  const {skills,fetchSkills} = useSkillsStore();
   const [userData, setUserData] = useState({
     birthday: "",
     firstName: "",
@@ -13,23 +14,18 @@ const About = () => {
     email: "",
     info: "",
   });
-  const skills = useSkillsStore((state) => state.skills);
-  const fetchSkills = useSkillsStore((state) => state.fetchSkills);
 
-  const getData = useCallback(async () => {
+  const getData = async () => {
     try {
       const res = await request.get(`auth/me`);
       setUserData(res.data);
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  };
 
   useEffect(() => {
     getData();
-  }, [getData]);
-
-  useEffect(() => {
     fetchSkills();
   }, [fetchSkills]);
 

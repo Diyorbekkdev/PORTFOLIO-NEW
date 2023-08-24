@@ -5,14 +5,12 @@ import "./portfolio.scss";
 import { portfolioTypes } from "../../../types";
 import { request } from "../../../request";
 const Portfolio = () => {
-  const [loading, setLoading] = useState(false);
   const [portfolioData, setPortfolioData] = useState<portfolioTypes[]>([]);
   const userId = Cookies.get(USERID);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const getPortfolios = useCallback(async () => {
     try {
-      setLoading(true);
       const res = await request.get(
         `portfolios?page=${currentPage}&limit=6&user=${userId}`
       );
@@ -22,9 +20,7 @@ const Portfolio = () => {
       setTotalPages(Math.ceil(pagination.total / 5));
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false);
-    }
+    } 
   }, [currentPage, userId]);
 
   useEffect(() => {

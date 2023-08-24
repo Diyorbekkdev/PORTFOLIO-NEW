@@ -1,24 +1,40 @@
 import { Link, NavLink } from "react-router-dom";
-import { useState, useEffect, Fragment } from "react";
-import useUserDataStore from "../../states/userData";
+import { useState, Fragment, useEffect } from "react";
 import mobile_menu from "../../assets/default-page-icons/mobilemenue.png";
 import close_icon from "../../assets/default-page-icons/close.png";
 import tg from "../../assets/default-page-icons/icons8-telegram-48.png";
 import insta from "../../assets/default-page-icons/icons8-instagram-24.png";
 import github from "../../assets/default-page-icons/icons8-github-30.png";
 import youtube from "../../assets/default-page-icons/icons8-youtube-30.png";
+import { request } from "../../request";
 
 const DefaultHeader = () => {
   const [top, setTop] = useState(false);
   const [menuControl, setMenuControl] = useState(false);
   const toggleNavbar = () => setTop(!top);
-  const userData = useUserDataStore((state) => state.userData);
-  const fetchUserData = useUserDataStore((state) => state.fetchUserData);
+
+  const [userData, setUserData] = useState({
+    birthday: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+    email: "",
+    info: "",
+  });
+
+  const getData = async () => {
+    try {
+      const res = await request.get(`auth/me`);
+      setUserData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    fetchUserData();
-  }, [fetchUserData]);
-
+    getData();
+  }, []);
   const toggleMenu = () => setMenuControl(!menuControl);
 
   return (
