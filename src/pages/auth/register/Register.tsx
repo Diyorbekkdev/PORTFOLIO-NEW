@@ -100,17 +100,6 @@ const Register = () => {
                     onChange={handeChange}
                   />
                 </div>
-                <div className="login-form-1">
-                  <label htmlFor="input-username">Email</label>
-                  <input
-                    type="text"
-                    name="Emial"
-                    id="email"
-                    placeholder="Email Address"
-                    required
-                    onChange={handeChange}
-                  />
-                </div>
                 <div className="login-form-3">
                   <label htmlFor="input-password">Password</label>
                   <div className="password-input-container">
@@ -147,7 +136,7 @@ const Register = () => {
                 </div>
                 <div className="login-form-5">
                   <p>
-                    Already have an account? <a href="#">Sign In</a>
+                    Already have an account? <a href="/login">Log In</a>
                   </p>
                 </div>
               </form>

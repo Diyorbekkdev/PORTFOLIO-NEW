@@ -1,4 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuth } from "../../states/auth";
+import { useCallback, useEffect, useState } from "react";
+import { request } from "../../request";
+import { IMG_URL } from "../../constants";
+
+
 import bell from "../../../public/bell.png";
 import avatar from "../../assets/avatar-svgrepo-com.svg";
 import search from "../../assets/search-icon.png";
@@ -7,14 +14,13 @@ import setting from "../../assets/userdropdown/setting.svg";
 import faq from "../../assets/userdropdown/faq.svg";
 import logoutt from "../../assets/userdropdown/logout.svg";
 
-import { useAuth } from "../../states/auth";
-import { useEffect, useState } from "react";
-
 import "./Header.scss";
-import { request } from "../../request";
-import { IMG_URL } from "../../constants";
+
 const UserHeader = () => {
+  const navigate = useNavigate()
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [unansweredMessages, setUnansweredMessages] = useState(0);
+  const { userId } = useAuth();
   const [userData, setUserData] = useState({
     birthday: "",
     firstName: "",
@@ -25,31 +31,46 @@ const UserHeader = () => {
     info: "",
     photo: "",
   });
+
+
+  const unresponseMessages = useCallback(async () => {
+    try {
+      const res = await request(
+        `messages?answer&whom=${userId}`
+      );
+      const { pagination } = res.data;
+      setUnansweredMessages(pagination.total)      
+    } catch (err) {
+      toast.error("Failed to get unanswered messages");
+    } 
+  }, [userId]);
+
+
   const controlDropdown = () => {
     setOpenDropdown(!openDropdown);
   };
+
   const { logout } = useAuth();
   const handleLogout = () => {
     if (confirm("Are you sure you want to log")) {
       logout();
+      navigate('/login')
     }
   };
-
-
 
   const getData = async () => {
     try {
       const res = await request.get(`auth/me`);
       setUserData(res.data);
     } catch (err) {
-      console.log(err);
+      toast.error("Failed to get user data");
     }
   };
-
+  
   useEffect(() => {
     getData();
- 
-  }, []);
+    unresponseMessages()
+  }, [unresponseMessages, unansweredMessages]);
   return (
     <header className="header">
       <div className="admin__container">
@@ -58,10 +79,10 @@ const UserHeader = () => {
           <img className="search_icon" src={search} alt="icon" />
         </div>
         <div className="message_notify">
-          <Link to={"/"}>
+          <Link to={"/messages"}>
             <img className="m-notify" src={bell} alt="icon" />
           </Link>
-          <span className="bell">0</span>
+          <span className="bell">{unansweredMessages}</span>
         </div>
         <div className="account">
           <div onClick={controlDropdown}>
@@ -72,7 +93,7 @@ const UserHeader = () => {
           >
             <div className="user_img">
               <img
-                src="https://res.cloudinary.com/practicaldev/image/fetch/s--aXuLP7Pm--/c_fill,f_auto,fl_progressive,h_320,q_auto,w_320/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/1088365/0391b544-a37e-46be-9387-908c44762301.jpeg"
+                src={userData.photo ? IMG_URL + userData.photo : avatar}
                 alt="icon"
               />
               <div className="user_name">

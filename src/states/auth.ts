@@ -12,16 +12,18 @@ type AuthTypes = {
   login: (data: userLogin, navigate: NavigateFunction) => void;
   logout: () => void;
   register: (data: userRegister, navigate: NavigateFunction) => void;
+  userId: string;
 };
 
 export const useAuth = create<AuthTypes>((set) => ({
   isAuthenticated: Cookies.get(TOKEN) ? true : false,
+  userId : Cookies.get(USERID) || '',
   login: async (data, navigate) => {
     try {
       const res = await request.post("auth/login", data);
       Cookies.set(TOKEN, res.data.token);
       Cookies.set(USERID, res.data.user._id);
-      set({ isAuthenticated: true });
+      set({ isAuthenticated: true, userId: res.data.user._id});
       navigate("/experience");
     } catch (err) {
       console.log(err)

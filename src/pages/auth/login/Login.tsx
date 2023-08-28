@@ -108,7 +108,7 @@ const Login = () => {
                 </div>
                 <div className="login-form-5">
                   <p>
-                    Already have an account? <a href="#">Sign In</a>
+                    If you don't have account? <a href="/register">Register</a>
                   </p>
                 </div>
               </form>

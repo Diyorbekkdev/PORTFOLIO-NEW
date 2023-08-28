@@ -13,7 +13,7 @@ export interface AccordionSectionProps {
   _id: string;
   position: string,
   description: string,
-  company: string,
+  companyName: string,
   startDate: string, 
   endDate: string,
   workName: string
@@ -63,4 +63,19 @@ export interface UserData {
   phoneNumber: string;
   telegram: string;
   youtube: string;
+}
+
+export interface allMessages {
+  _id: string;
+  message: string;
+  title: string;
+  answer: string;
+  show: boolean;
+  whom: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+  };
+  user: string;
 }

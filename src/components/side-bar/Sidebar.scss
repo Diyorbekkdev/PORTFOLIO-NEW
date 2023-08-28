@@ -65,7 +65,7 @@
           width: 35px;
         }
       }
-      a {
+      a, .logOut {
         margin-top: 8px;
         font-family: "Plus Jakarta Sans", sans-serif;
         font-size: 20px;
@@ -78,7 +78,7 @@
         }
       }
       &:hover {
-        a {
+        a, .logOut {
           color: #434040;
         }
         img {

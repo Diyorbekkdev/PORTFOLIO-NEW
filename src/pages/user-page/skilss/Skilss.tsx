@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { request } from "../../../request";
-import Cookies from "js-cookie";
-import { USERID } from "../../../constants";
 import { SkillsType } from "../../../types";
-import LoadingContents from "../../../components/loading/LoadingContents";
+import { useAuth } from "../../../states/auth";
+import { toast } from "react-toastify";
 import ConfirmationModal from "../../../components/confirmation/ConfirmationModal";
 
 import skill_icon from "../../../assets/skilss.svg";
@@ -11,6 +10,7 @@ import edit from "../../../assets/edit.png";
 import delete_icon from "../../../assets/delete.png";
 
 import "./skilss.scss";
+import DataLoading from "../../../components/dataLoading/Loading";
 const Skilss = () => {
   const obj = {
     name: "",
@@ -28,7 +28,7 @@ const Skilss = () => {
   const [deleteItemId, setDeleteItemId] = useState("");
   const { percent, name } = skillData;
 
-  const userId = Cookies.get(USERID);
+  const { userId } = useAuth();
 
   const getSkill = useCallback(async () => {
     try {
@@ -40,7 +40,7 @@ const Skilss = () => {
       setSkill(data);
       setTotalPages(Math.ceil(pagination.total / 5));
     } catch (err) {
-      console.log(err);
+      toast.error("Error while getting skills");
     } finally {
       setLoading(false);
     }
@@ -78,7 +78,7 @@ const Skilss = () => {
         getSkill();
       }
     } catch (error) {
-      console.error("Error creating skill:", error);
+      toast.error("Failed to submit skills!");
     }
   };
 
@@ -97,7 +97,7 @@ const Skilss = () => {
         percent,
       });
     } catch (err) {
-      console.log(err);
+      toast.error("Error while getting skills");
     }
     setShaking(false);
   };
@@ -120,7 +120,7 @@ const Skilss = () => {
       setSkill(skill.filter((res) => res._id !== deleteItemId));
       getSkill();
     } catch (error) {
-      console.error("Error deleting skill:", error);
+      toast.error("Failed to delete skills!");
     } finally {
       setDeleteItemId("");
       setIsModalOpen(false);
@@ -131,6 +131,7 @@ const Skilss = () => {
     setDeleteItemId("");
     setIsModalOpen(false);
   };
+
   return (
     <div className="skill_wrapper">
       <div
@@ -188,7 +189,16 @@ const Skilss = () => {
         </div>
         <div className="list_col">
           {loading ? (
-            <LoadingContents />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "300px",
+              }}
+            >
+              <DataLoading /> 
+            </div>
           ) : (
             skill.map((res, index) => (
               <div className="container_list" key={res._id}>
@@ -245,6 +255,8 @@ const Skilss = () => {
         )}
       </div>
       <ConfirmationModal
+        deleteTitle="Confirmation Deletation"
+        deleteMessage="Are you sure you want to delete this skill data?"
         isOpen={isModalOpen}
         onCancel={cancelDelete}
         onConfirm={confirmDelete}

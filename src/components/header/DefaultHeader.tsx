@@ -25,6 +25,7 @@ const DefaultHeader = () => {
     instagram: "",
     github: "",
     youtube: "",
+    fields: [],
   });
 
   const getData = async () => {
@@ -51,7 +52,11 @@ const DefaultHeader = () => {
                 {userData?.firstName + " " + userData?.lastName}
               </Link>
             </h1>
-            <h2>I'm a passionate from New York</h2>
+            <h2>
+              I'm a passionate
+              <span>{userData.fields[0]}</span>
+              from New York
+            </h2>
             <nav id="navbar" className="navbar">
               {top ? (
                 <>

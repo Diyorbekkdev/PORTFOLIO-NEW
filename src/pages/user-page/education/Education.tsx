@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { educationLevels } from "../../../data/eduLevels";
+import { request } from "../../../request";
+import { useAuth } from "../../../states/auth";
+import {toast} from 'react-toastify'
+
+import EduCard, { EduCardProps } from "../../../components/educard/EduCard";
 import eduIcon from "../../../assets/education.svg";
-import Cookies from "js-cookie";
 import adding from "../../../assets/teacher-explaining-using-gestures.png";
 import tick from "../../../assets/education-location.png";
-import "./education.scss";
-import EduCard, { EduCardProps } from "../../../components/educard/EduCard";
-import { request } from "../../../request";
-import { USERID } from "../../../constants";
-import LoadingContents from "../../../components/loading/LoadingContents";
 import ConfirmationModal from "../../../components/confirmation/ConfirmationModal";
+
+import "./education.scss";
+import DataLoading from "../../../components/dataLoading/Loading";
 const Education = () => {
   const obj = {
     name: "",
@@ -27,8 +29,9 @@ const Education = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteItemId, setDeleteItemId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const userId = Cookies.get(USERID);
+  const {userId} = useAuth();
   const { name, level, description, startDate, endDate } = educations;
+  
   const getEducation = useCallback(async () => {
     try {
       setLoading(true);
@@ -39,11 +42,12 @@ const Education = () => {
       setEducationData(data);
       setTotalPages(Math.ceil(pagination.total / 5));
     } catch (err) {
-      console.log(err);
+      toast.error('Error getting education');
     } finally {
       setLoading(false);
     }
   }, [currentPage, userId]);
+
   useEffect(() => {
     getEducation();
   }, [getEducation]);
@@ -86,7 +90,7 @@ const Education = () => {
         getEducation();
       }
     } catch (error) {
-      console.error("Error creating skill:", error);
+      toast.error("Error creating skill:");
     }
   };
 
@@ -121,7 +125,7 @@ const Education = () => {
       );
       getEducation();
     } catch (error) {
-      console.error("Error deleting skill:", error);
+      toast.error("Error deleting skill");
     } finally {
       setDeleteItemId("");
       setIsModalOpen(false);
@@ -154,7 +158,7 @@ const Education = () => {
         scroll.scrollTop = 0;
       }
     } catch (err) {
-      console.log(err);
+      toast.error('Error updating')
     }
   };
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -246,8 +250,8 @@ const Education = () => {
       </div>
       <div className={`${loading ? "" : "edu_cards"}`}>
         {loading ? (
-          <div className="edu_loading">
-            <LoadingContents />
+          <div className="edu_loading" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <DataLoading />
           </div>
         ) : (
           euducationData.map((res) => (
@@ -287,6 +291,8 @@ const Education = () => {
         </div>
       </div>
       <ConfirmationModal
+        deleteTitle="Confirmation Deletation"
+        deleteMessage="Are you sure you want to delete this education data?"
         isOpen={isModalOpen}
         onCancel={cancelDelete}
         onConfirm={confirmDelete}

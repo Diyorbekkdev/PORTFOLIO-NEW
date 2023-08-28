@@ -1,18 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
+import { toast } from "react-toastify";
+import { request } from "../../../request";
+import { userObj } from "../../../data/userData";
+import { IMG_URL } from "../../../constants";
 
 import avatar from "../../../assets/avatar-svgrepo-com.svg";
 import check from "../../../assets/check-removebg-preview.png";
 import ProgressIndicator from "../../../components/progres/ProgresIndicator";
-import { request } from "../../../request";
-import { userObj } from "../../../data/userData";
-import { IMG_URL } from "../../../constants";
 import PasswordUpdate from "./PasswordUpdate";
 
 import "./account.scss";
 const Account = () => {
- 
   const [showConfirmation, setShowConfirmation] = useState(false);
-
   const [img, setImg] = useState("");
   const [userData, setuserData] = useState({ ...userObj, fields: "" });
   
@@ -26,7 +25,8 @@ const Account = () => {
       });
       setImg(res.data.photo);
     } catch (err) {
-      console.log(err);
+      toast.error('Could not get user info!');
+      
     }
   }, []);
 
@@ -63,15 +63,16 @@ const Account = () => {
       const { data } = await request.post("auth/upload", form);
       setImg(data);
     } catch (err) {
-      console.log(err);
+      toast.error("Could not upload")
     }
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await request.put("auth/updatedetails", { ...userData, photo: img });
+      toast.success("Uploaded successfully!")
     } catch (err) {
-      console.log(err);
+      toast.error("Could not update")
     }
   };
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

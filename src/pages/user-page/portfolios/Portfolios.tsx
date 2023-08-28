@@ -1,19 +1,19 @@
 import { useCallback, useState, useEffect } from "react";
 import { request } from "../../../request";
-import { IMG_URL, USERID } from "../../../constants";
+import { IMG_URL } from "../../../constants";
 import { Link } from "react-router-dom";
 import { portfolioTypes } from "../../../types";
-import Cookies from "js-cookie";
+import { useAuth } from "../../../states/auth";
+import { toast } from "react-toastify";
 
 import edit from "../../../assets/edit.png";
 import delete_icon from "../../../assets/delete.png";
 import portfolio from "../../../assets/skilss.svg";
-import LoadingContents from "../../../components/loading/LoadingContents";
 import ConfirmationModal from "../../../components/confirmation/ConfirmationModal";
+import DataLoading from "../../../components/dataLoading/Loading";
 
 import "./portfolios.scss";
 const Portfolios = () => {
-  
   const obj = {
     name: "",
     url: "",
@@ -31,8 +31,8 @@ const Portfolios = () => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
   const [selectedImageId, setSelectedImageId] = useState({ _id: "", name: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const userId = Cookies.get(USERID);
-  const { name, url, description, } = portfolios;
+  const { userId } = useAuth();
+  const { name, url, description } = portfolios;
 
   const getPortfolios = useCallback(async () => {
     try {
@@ -42,14 +42,15 @@ const Portfolios = () => {
       );
       const { data, pagination } = res.data;
       setPortfolioData(data);
-      
+
       setTotalPages(Math.ceil(pagination.total / 5));
     } catch (err) {
-      console.log(err);
+      toast.error("Failed to get portfolio data");
     } finally {
       setLoading(false);
     }
   }, [currentPage, userId]);
+
   useEffect(() => {
     getPortfolios();
   }, [getPortfolios]);
@@ -65,17 +66,14 @@ const Portfolios = () => {
       setCurrentPage(currentPage + 1);
     }
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       if (selected) {
-        console.log("Hello world",selected);
-        console.log("Slaom",portfolios);
-        
         await request.put(`portfolios/${selected}`, {
           ...portfolios,
-          photo: selectedImageId
+          photo: selectedImageId,
         });
         setPortfolios({
           name: "",
@@ -84,7 +82,8 @@ const Portfolios = () => {
           photo: { _id: "", name: "" },
         });
         setSelected("");
-        getPortfolios()
+        getPortfolios();
+        toast.success("Portfolios updated successfully!");
       } else {
         await request.post("portfolios", {
           ...portfolios,
@@ -98,12 +97,13 @@ const Portfolios = () => {
         });
         setImagePreviewUrl("");
         getPortfolios();
+        toast.success("Portfolios added successfully!");
       }
     } catch (error) {
-      console.error("Error creating skill:", error);
+      toast.error("Error while creating portfolio");
     }
   };
-  
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -112,12 +112,14 @@ const Portfolios = () => {
       handleImageUpload(droppedFile);
     }
   };
+
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       handleImageUpload(selectedFile);
     }
   };
+
   const handleImageUpload = async (uploadedFile: File) => {
     try {
       const form = new FormData();
@@ -137,7 +139,9 @@ const Portfolios = () => {
       }));
       setSelectedImageId(res?.data?._id);
     } catch (err) {
-      console.log(err);
+      toast.error("Error uploading image");
+    } finally {
+      toast.success("Image is uploaded successfully!");
     }
   };
 
@@ -153,11 +157,11 @@ const Portfolios = () => {
 
   const editPortfolio = async (id: string) => {
     setSelected(id);
-    
+
     try {
       const { data } = await request(`portfolios/${id}`);
       const { name, url, description, photo } = data;
-      
+
       setPortfolios({
         name,
         url,
@@ -189,18 +193,18 @@ const Portfolios = () => {
       setPortfolioData(portfolioData.filter((res) => res._id !== deleteItemId));
       getPortfolios();
     } catch (error) {
-      console.error("Error deleting skill:", error);
+      toast.error("Error deleting portfolio");
     } finally {
       setDeleteItemId("");
       setIsModalOpen(false);
+      toast.success("Portfolio deleted succesfuly!");
     }
   };
   const cancelDelete = () => {
     setDeleteItemId("");
     setIsModalOpen(false);
   };
-  
-  
+
   return (
     <section>
       <div className="portfolios">
@@ -266,7 +270,7 @@ const Portfolios = () => {
               </div>
               <div className="form__group">
                 <button className="submit_exp_btn add_edu" type="submit">
-              {selected ? "Edit Portfolio": 'Add Portfolio'}
+                  {selected ? "Edit Portfolio" : "Add Portfolio"}
                 </button>
               </div>
             </form>
@@ -276,8 +280,16 @@ const Portfolios = () => {
       <div className={`${loading ? "" : "portfolio_wrapper"}`}>
         <h2 className="title">My Projects</h2>
         {loading ? (
-          <div className="loading_container">
-            <LoadingContents />
+          <div
+            className="loading_containe"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "300px",
+            }}
+          >
+            <DataLoading />
           </div>
         ) : (
           portfolioData.map((res) => (
@@ -332,6 +344,8 @@ const Portfolios = () => {
         </div>
       </div>
       <ConfirmationModal
+        deleteTitle="Confirmation Deletation"
+        deleteMessage="Are you sure you want to delete this portfolio data?"
         isOpen={isModalOpen}
         onCancel={cancelDelete}
         onConfirm={confirmDelete}

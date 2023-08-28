@@ -2,7 +2,7 @@ import { useState } from "react";
 import { USERID } from "../../../constants";
 import { request } from "../../../request";
 import { useEffect } from "react";
-
+import {toast} from 'react-toastify'
 import location from "../../../assets/default-page-icons/location.png";
 import messageIcon from "../../../assets/default-page-icons/message.png";
 import call from "../../../assets/default-page-icons/call.png";
@@ -20,11 +20,13 @@ const Contact = () => {
     title: "",
     message: "",
     user: "",
+    firstName: "",
+    lastName: "",
   };
+
   const userId = Cookies.get(USERID);
   const [post, setPost] = useState(obj);
-  const { title, message, user } = post;
-
+  const { title, message, user, firstName, lastName } = post;
   const [userData, setUserData] = useState({
     phoneNumber: "",
     address: "",
@@ -42,9 +44,8 @@ const Contact = () => {
     try {
       const res = await request.get(`auth/me`);
       setUserData(res.data);
-      console.log(res);
     } catch (err) {
-      console.log(err);
+      toast.error('Getting user data failed');
     }
   };
 
@@ -54,27 +55,48 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const combinedName = [firstName, lastName].filter(Boolean).join(", ");
     try {
       await request.post(`messages?whom[in]=${userId}`, {
         title,
         message,
-        user,
+        user: combinedName,
         whom: userId,
       });
       setPost({
+        ...post,
         title: "",
         message: "",
-        user: "",
+        user: combinedName,
       });
+      toast.success('Messages send successfully')
     } catch (error) {
-      console.error("Error creating skill:", error);
+      toast.error('Messages send failed')
     } finally {
       setPost({
         title: "",
         message: "",
         user: "",
+        firstName: "",
+        lastName: "",
       });
     }
+  };
+
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setPost({
+      ...post,
+      firstName: value,
+    });
+  };
+
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setPost({
+      ...post,
+      lastName: value,
+    });
   };
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -83,6 +105,8 @@ const Contact = () => {
       [name]: value,
     });
   };
+
+  
 
   return (
     <section id="contact" className="contact">
@@ -156,6 +180,26 @@ const Contact = () => {
           </div>
           <form className="contact__message" onSubmit={handleSubmit}>
             <div className="contact_form">
+              <div className="form__group">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  onChange={handleFirstNameChange}
+                  placeholder="Your First Name"
+                />
+              </div>
+              <div className="form__group">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  onChange={handleLastNameChange}
+                  placeholder="Your Last Name"
+                />
+              </div>
               <div className="form__group">
                 <label htmlFor="title">Title</label>
                 <input

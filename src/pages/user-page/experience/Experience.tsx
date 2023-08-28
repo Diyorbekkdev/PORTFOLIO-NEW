@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { request } from "../../../request";
-import { USERID } from "../../../constants";
-import Cookies from "js-cookie";
-import exp_gif from "../../../assets/experience-gif.gif";
+import { useAuth } from "../../../states/auth";
+import { toast } from "react-toastify";
+import { AccordionSectionProps } from "../../../types";
+import ConfirmationModal from "../../../components/confirmation/ConfirmationModal";
+
 import exp_icon from "../../../assets/experience.svg";
 import edit_icon from "../../../assets/edit.png";
 import delete_icon from "../../../assets/delete.png";
-import { AccordionSectionProps } from "../../../types";
 
-import '../../../components/accordion/accordion.scss'
+import "../../../components/accordion/accordion.scss";
 import "./experience.scss";
+import DataLoading from "../../../components/dataLoading/Loading";
 
 const Experience = () => {
   const obj = {
@@ -22,15 +24,22 @@ const Experience = () => {
   const [experienceData, setExperienceData] = useState(obj);
   const [experience, setExperience] = useState<AccordionSectionProps[]>([]);
   const [selected, setSelected] = useState("");
-  const userId = Cookies.get(USERID);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { userId } = useAuth();
   const { workName, companyName, description, startDate, endDate } =
     experienceData;
   const getData = useCallback(async () => {
     try {
+      setLoading(true);
       const { data } = await request.get(`experiences?user=${userId}`);
+
       setExperience(data.data);
     } catch (err) {
-      console.log(err);
+      toast.error("Error getting experience!");
+    } finally {
+      setLoading(false);
     }
   }, [userId]);
 
@@ -55,9 +64,10 @@ const Experience = () => {
           startDate: "",
           endDate: "",
         });
+        toast.success("Experiences Edited successfully");
       } else {
         await request.post("experiences", experienceData);
-        console.log("success");
+        toast.success("Data added successfully");
         setExperienceData({
           workName: "",
           companyName: "",
@@ -68,7 +78,7 @@ const Experience = () => {
         getData();
       }
     } catch (err) {
-      console.log(err);
+      toast.error("error");
     } finally {
       getData();
     }
@@ -78,7 +88,6 @@ const Experience = () => {
     setSelected(experienceId);
     try {
       const { data } = await request.get(`experiences/${experienceId}`);
-      console.log("Updated successfully");
       const { description, workName, companyName, startDate, endDate } = data;
       const parsedStartDate = new Date(startDate);
       const parsedEndDate = new Date(endDate);
@@ -92,21 +101,32 @@ const Experience = () => {
         endDate: formattedEndDate,
       });
     } catch (err) {
-      alert(err);
+      toast.error("Error updating");
+    } finally {
+      toast.success("Success update completed");
     }
   };
 
-  const handleDelete = async (experienceId: string) => {
+  const deleteExperience = (id: string) => {
+    setDeleteItemId(id);
+    setIsModalOpen(true);
+  };
+  const handleDelete = async () => {
     try {
-      await request.delete(`experiences/${experienceId}`);
-      console.log("Deleted successfully");
+      await request.delete(`experiences/${deleteItemId}`);
+      toast.success("Deleted successfully");
       getData();
     } catch (err) {
-      console.log(err);
+      toast.error("Data deleted successfully!");
+    } finally {
+      setDeleteItemId("");
+      setIsModalOpen(false);
     }
   };
-
-  
+  const cancelDelete = () => {
+    setDeleteItemId("");
+    setIsModalOpen(false);
+  };
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setExperienceData({
@@ -189,59 +209,71 @@ const Experience = () => {
         </form>
       </div>
       <div className="experience__list">
-        <img className="exp_gif" src={exp_gif} alt="exp_list" />
         <div className="exp_title">
           <h1 className="title">Experience Lists</h1>
         </div>
-        <div className="overly"></div>
-        <div className="exp_list">
-          {experience?.map((res) => (
-            <details className="accordion" key={res._id}>
-              <summary className="accordion-header">
-                <div className="accordion-header-content">
-                  <div className="exp_info">
-                    <span className="accordion-header-content-label">
-                      {" "}
-                      <span className="contents_name">Company:</span>{" "}
-                      
-                    </span>
-                    <h2 className="accordion-header-content-title">
-                      {" "}
-                      <span className="contents_name">Position:</span>{" "}
-                      
-                    </h2>
+        <div className="overl"></div>
+        <div className={`${loading ? '' :'exp_list'}`} style={loading? {marginTop: '200px'}: {margin: '0'}}>
+          {loading ? (
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '20px'}}>
+              <DataLoading />
+            </div>
+          ) : (
+            experience?.map((res) => (
+              <details className="accordion" key={res._id}>
+                <summary className="accordion-header">
+                  <div className="accordion-header-content">
+                    <div className="exp_info">
+                      <span className="accordion-header-content-label">
+                        <span className="contents_name">Company:</span>
+                        {res.companyName}
+                      </span>
+                      <h2 className="accordion-header-content-title">
+                        <span className="contents_name">Position:</span>
+                        {res.workName}
+                      </h2>
+                    </div>
+                    <div className="exp_info">
+                      <span className="accordion-header-content-label">
+                        <span className="contents_name">Start Date:</span>
+                        {res.startDate.split("T")[0]}
+                      </span>
+                      <span className="accordion-header-content-title">
+                        <span className="contents_name">End Date:</span>{" "}
+                        {res.endDate.split("T")[0]}
+                      </span>
+                    </div>
+                    <div className="exp_info btn">
+                      <button
+                        onClick={() => handleUpdate(res._id)}
+                        className=""
+                      >
+                        <img src={edit_icon} alt="" />
+                      </button>
+                      <button onClick={() => deleteExperience(res._id)}>
+                        <img src={delete_icon} alt="" />
+                      </button>
+                    </div>
                   </div>
-                  <div className="exp_info">
-                    <span className="accordion-header-content-label">
-                      {" "}
-                      <span className="contents_name">Start Date:</span>{" "}
-                      {startDate}
-                    </span>
-                    <span className="accordion-header-content-title">
-                      {" "}
-                      <span className="contents_name">End Date:</span> {endDate}
-                    </span>
-                  </div>
-                  <div className="exp_info btn">
-                    <button onClick={()=>handleUpdate(res._id)} className="">
-                      <img src={edit_icon} alt="" />
-                    </button>
-                    <button onClick={()=> handleDelete(res._id)}>
-                      <img src={delete_icon} alt="" />
-                    </button>
-                  </div>
+                </summary>
+                <div className="accordion-content">
+                  <p className="accordion-content-text">
+                    <span className="contents_name">Your Description:</span>
+                    {res.description}
+                  </p>
                 </div>
-              </summary>
-              <div className="accordion-content">
-                <p className="accordion-content-text">
-                  <span className="contents_name">Your Description:</span>{" "}
-                  {description}
-                </p>
-              </div>
-            </details>
-          ))}
+              </details>
+            ))
+          )}
         </div>
       </div>
+      <ConfirmationModal
+        deleteTitle="Confirmation Deletation"
+        deleteMessage="Are you sure you want to delete this experience data?"
+        isOpen={isModalOpen}
+        onCancel={cancelDelete}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 };

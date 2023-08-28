@@ -47,23 +47,22 @@
       display: flex;
       margin-bottom: 50px;
       gap: 15px;
-      @include media(750px){
+      @include media(750px) {
         flex-direction: column;
-        
       }
       .about_img_container {
         flex: 0 0 auto;
         width: 33.33333333%;
-        @include media(750px){
-            width: 100%;
-            margin-bottom: 20px;
-          }
+        @include media(750px) {
+          width: 100%;
+          margin-bottom: 20px;
+        }
         img {
           max-width: 100%;
           height: auto;
-          @include media(976px){
+          @include media(976px) {
             width: 100%;
-           border-radius: 10px;
+            border-radius: 10px;
           }
         }
       }
@@ -87,7 +86,7 @@
           display: flex;
           justify-content: space-between;
           margin-bottom: 30px;
-          @include media(590px){
+          @include media(590px) {
             flex-direction: column;
             gap: 15px;
           }
@@ -122,8 +121,8 @@
         margin-top: 25px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        @include media(800px){
-            grid-template-columns: repeat(1, 1fr);
+        @include media(800px) {
+          grid-template-columns: repeat(1, 1fr);
         }
         gap: 10px;
         margin-bottom: 25px;
@@ -158,46 +157,91 @@
       }
     }
     .slider__wrapper {
-      margin-top: 30px;
-      .testimonial-item {
-        box-sizing: content-box;
-        min-height: 320px;
-        max-width: 520px;
-        p {
-          font-style: italic;
-          margin: 0 15px 0 15px;
-          padding: 20px 20px 60px 20px;
-          background: rgba(255, 255, 255, 0.1);
-          position: relative;
-          border-radius: 6px;
-          z-index: 1;
-          color: #fff;
-          font-family: "Raleway", sans-serif;
-          span {
-            margin-right: 10px;
-          }
-        }
-        img {
-          width: 90px;
-          border-radius: 50%;
-          margin: -40px 0 0 40px;
-          position: relative;
-          z-index: 2;
-          border: 6px solid rgba(255, 255, 255, 0.12);
-        }
-        h3 {
-          font-size: 18px;
-          font-weight: bold;
-          margin: 10px 0 5px 45px;
-          color: #fff;
-          font-family: "Raleway", sans-serif;
-        }
-        h4 {
-          font-size: 14px;
-          color: #999;
-          margin: 0 0 0 45px;
-          font-family: "Raleway", sans-serif;
-        }
+      margin-top: 25px;
+      .loading_container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .cookie-card {
+        max-width: 320px;
+        padding: 1rem;
+        background-color: #ece8e8;
+        border-radius: 10px;
+        box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      .title {
+        font-weight: 600;
+        color: rgb(31 41 55);
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .description {
+        margin-top: 1rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: rgb(75 85 99);
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .description a:hover {
+        -webkit-text-decoration-line: underline;
+        text-decoration-line: underline;
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1rem;
+        -moz-column-gap: 1rem;
+        column-gap: 1rem;
+        flex-shrink: 0;
+      }
+
+      .pref {
+        font-size: 0.75rem;
+        line-height: 1rem;
+        color: rgb(31 41 55);
+        -webkit-text-decoration-line: underline;
+        text-decoration-line: underline;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        background-color: transparent;
+      }
+
+      .pref:hover {
+        color: rgb(156 163 175);
+      }
+
+      .pref:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+
+      .accept {
+        font-size: 0.75rem;
+        line-height: 1rem;
+        background-color: rgb(17 24 39);
+        font-weight: 500;
+        border-radius: 0.5rem;
+        color: #fff;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+        border: none;
+        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .accept:hover {
+        background-color: rgb(55 65 81);
+      }
+
+      .accept:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
       }
     }
   }

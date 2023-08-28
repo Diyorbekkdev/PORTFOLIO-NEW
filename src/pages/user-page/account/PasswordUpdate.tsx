@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getPasswordStrength } from "../../../data/passwordCheck";
 import { request } from "../../../request";
+import { toast } from "react-toastify";
 
 const PasswordUpdate = () => {
   const objPassword = {
@@ -28,7 +29,6 @@ const PasswordUpdate = () => {
       newPassword: newNewPassword
     }));
   
-    // setNewPassword(newNewPassword);
     if (newNewPassword === "") {
       setPasswordStrength("");
     } else {
@@ -47,7 +47,7 @@ const PasswordUpdate = () => {
       await request.put("auth/updatepassword", newPassword);
       setNewPassword(objPassword);
     } catch (err) {
-      console.log(err);
+      toast.error('Error updating password')
     }
   };
 
